@@ -68,8 +68,16 @@ function publishMessage() {
 }
 
 function control_led() {
-  msg = document.getElementById("message").value;
-  topic = document.getElementById("topic_pub").value;
+  msg = ""
+  topic = "esp32/controlLED"
+
+  if (document.getElementById("led_switch").checked) {
+    msg = "on"
+  } else {
+    msg = "off"
+  }
+
+  console.log(topic, msg)
 
   Message = new Paho.MQTT.Message(msg);
   Message.destinationName = topic;
@@ -79,4 +87,3 @@ function control_led() {
     "<span> Message to topic " + topic + " is sent </span><br>";
 }
 
-// document.getElementById
