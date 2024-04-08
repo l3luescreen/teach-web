@@ -40,7 +40,6 @@ const chartConfig = [
 ];
 
 const generateChart = (htmlId) => {
-  console.log("generateChart", htmlId);
   window["temp_humid_graph"] = new Chart(document.getElementById(htmlId), {
     type: "line",
     data: {

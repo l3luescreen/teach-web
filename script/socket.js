@@ -1,6 +1,6 @@
 // import { ChartUpdates } from "../script/graphUpdate";
 
-const MODE = "un_mock";
+const MODE = "mock";
 
 const checkUrl = () => {
   let urls = window.location.href.split("/");
@@ -16,7 +16,6 @@ const connectToSocket = async () => {
       }, 1000);
     } else {
       const url = `ws://broker.emqx.io:8083/mqtt`;
-      console.log("connecting to socket: ", url);
       const socket = new WebSocket(url);
       socket.onmessage = (message) => {
         let jsonMessage = JSON.parse(message.data);

@@ -1,5 +1,4 @@
 const start = () => {
-  console.log("mockMqtt start");
   setInterval(() => {
     const timestamp = new Date();
     const mockDataTemp = Math.random() * 10;

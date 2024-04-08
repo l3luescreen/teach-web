@@ -18,10 +18,13 @@ const ifChartFull = (chart, name) => {
   const labels = chart.data.labels;
   datasets.map((item) => {
     if (item.data.length >= charts[name]["chartMaxLength"]) {
-      console.log("Chart is full");
       item.data.shift();
+      chart.update();
+    }
+    if (labels.length >= charts[name]["chartMaxLength"]) {
       labels.shift();
       chart.update();
+
     }
   });
 };
@@ -55,7 +58,14 @@ const HumidUpdate = (data) => {
 };
 
 const OverviewUpdate = (data) => {
-  console.log(data.temp, data.humid)
+  // if (temp_humid_graph.data.datasets[0].data.length >= 5) {
+  //   temp_humid_graph.data.datasets[0].data.shift();
+  //   temp_humid_graph.data.labels.shift();
+  // }
+
+  // if (temp_humid_graph.data.datasets[1].data.length >= 5) {
+  //   temp_humid_graph.data.datasets[1].data.shift();
+  // }
   temp_humid_graph.data.datasets[0].data.push(data.temp);
   temp_humid_graph.data.datasets[1].data.push(data.humid);
   temp_humid_graph.data.labels.push(labelOnGraphFormatter(new Date()));
@@ -63,19 +73,19 @@ const OverviewUpdate = (data) => {
   temp_humid_graph.update();
 };
 
-// const temp_humid_StaticUpdate = (data) => {
-//     const target_temp = document.getElementById('temp')
-//     const target_humid = document.getElementById('humid')
-//     if (!target_temp || !target_humid) return
+const temp_humid_StaticUpdate = (data) => {
+    const target_temp = document.getElementById('temp')
+    const target_humid = document.getElementById('humid')
+    if (!target_temp || !target_humid) return
 
-//     target_temp.innerHTML = data.temp.toFixed(2)
-//     target_humid.innerHTML = data.humid.toFixed(2)
+    target_temp.innerHTML = data.temp.toFixed(2)
+    target_humid.innerHTML = data.humid.toFixed(2)
 
-// }
+}
 
 const ChartUpdates = (data) => {
-  // temp_humid_StaticUpdate(data)
-  //   TempUpdate(data.temp);
-  //   HumidUpdate(data.humid);
+  temp_humid_StaticUpdate(data)
+  // TempUpdate(data.temp);
+  // HumidUpdate(data.humid);
   OverviewUpdate(data);
 };
