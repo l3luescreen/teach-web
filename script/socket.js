@@ -1,23 +1,33 @@
-import {ChartUpdates} from '../script/graphUpdate'
+// import { ChartUpdates } from "../script/graphUpdate";
+
+const MODE = "un_mock";
 
 const checkUrl = () => {
-    let urls = window.location.href.split('/')
-    return urls.pop()
-}
+  let urls = window.location.href.split("/");
+  return urls.pop();
+};
 
 const connectToSocket = async () => {
-    try {
-        const url = ``
-        const socket = new WebSocket(url)
-        socket.onmessage = (message) => {
-            let jsonMessage = JSON.parse(message.data)
-            if(checkUrl() === 'index.html') {
-                ChartUpdates(jsonMessage)
-            }
-        }
-    } catch (error) {
-        console.log(error)
+  try {
+    if (MODE === "mock") {
+      setInterval(() => {
+        let jsonMessage = genRandomData();
+        ChartUpdates(jsonMessage);
+      }, 1000);
+    } else {
+      const url = `ws://broker.emqx.io:8083/mqtt`;
+      console.log("connecting to socket: ", url);
+      const socket = new WebSocket(url);
+      socket.onmessage = (message) => {
+        let jsonMessage = JSON.parse(message.data);
+        // if (checkUrl() === "index.html") {
+        ChartUpdates(jsonMessage);
+        // }
+      };
     }
-}
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-connectToSocket()
+connectToSocket();
